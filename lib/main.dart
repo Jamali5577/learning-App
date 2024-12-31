@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lms_app/Screens/Auth/signin.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lms_app/Screens/Auth/login_screen.dart';
 import 'package:lms_app/classes/screen_size.dart';
 
-import 'Screens/Auth/signup.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,12 +21,12 @@ class MyApp extends StatelessWidget {
       
       
       title: 'Flutter Demo',
-      theme: ThemeData(
-       
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: SignIn(),
+     theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme, 
+        ),
+     ),
+      home: LoginPage(),
     );
   }
 }

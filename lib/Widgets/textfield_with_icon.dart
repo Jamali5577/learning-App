@@ -21,10 +21,10 @@ class textFieldWithIconWidget extends StatefulWidget {
   TextInputType? keyboardtype = TextInputType.text;
 
   @override
-  State<textFieldWithIconWidget> createState() => textFieldWithIconWidgetState();
+  State<textFieldWithIconWidget> createState() => TextFieldWithIconWidgetState();
 }
 
-class textFieldWithIconWidgetState extends State<textFieldWithIconWidget> {
+class TextFieldWithIconWidgetState extends State<textFieldWithIconWidget> {
   bool showPassword = false;
   @override
   Widget build(BuildContext context) {
@@ -52,8 +52,8 @@ class textFieldWithIconWidgetState extends State<textFieldWithIconWidget> {
                   });
                 },
                 child: Icon(showPassword
-                    ? CupertinoIcons.lock_open_fill
-                    : CupertinoIcons.lock_fill))
+                    ? CupertinoIcons.eye_slash_fill
+                    : CupertinoIcons.eye_fill))
                 : const IgnorePointer(),
             hintText: widget.fieldName,
             border: OutlineInputBorder(

@@ -27,7 +27,7 @@ class customRoundedButton extends StatelessWidget {
       onTap: on_Tap,
       child: Material(
         elevation: 3,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
         child: Container(
             width: MediaQuery.of(context).size.width / 2,
             height: MediaQuery.of(context).size.height / 17,
@@ -41,7 +41,7 @@ class customRoundedButton extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: loading
                 ? Center(
@@ -51,11 +51,11 @@ class customRoundedButton extends StatelessWidget {
                   )
                 : Text(
                     title,
-                    style: GoogleFonts.nunito(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: Colors.white,
-                          fontSize: paragraph,
-                          fontWeight: FontWeight.w400),
+                          fontSize: header4,
+                          fontWeight: FontWeight.w500),
                     ),
                   )),
       ),
