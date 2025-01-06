@@ -1,12 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lms_app/Utils/typ_def.dart';
 import 'package:lms_app/classes/colors.dart';
 
 class textFieldWithIconWidget extends StatefulWidget {
   textFieldWithIconWidget(
       {super.key,
         required this.widgetcontroller,
+        required this.validatorCallback,
         required this.fieldName,
         this.widgeticon,
         required  this.isPasswordField,
@@ -16,6 +18,7 @@ class textFieldWithIconWidget extends StatefulWidget {
   //SETTING THE PARAMETER FOR THE widgets
   TextEditingController widgetcontroller = TextEditingController();
   IconData? widgeticon;
+ final ValidatorCallback validatorCallback;
   String fieldName = "sample";
   bool isPasswordField = false;
   TextInputType? keyboardtype = TextInputType.text;

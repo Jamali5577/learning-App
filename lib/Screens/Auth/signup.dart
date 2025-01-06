@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:form_validator/form_validator.dart';
+import 'package:lms_app/Screens/Auth/Provider/auth_provider.dart';
 import 'package:lms_app/Widgets/custom_rounded_btn.dart';
+import 'package:provider/provider.dart';
 
 
 import '../../Widgets/textfield_with_icon.dart';
@@ -12,6 +15,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final GlobalKey<FormState> _farm = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -53,7 +57,21 @@ class _SignUpState extends State<SignUp> {
               ),
               formTextContainer(),
              const SizedBox(height: 20,),
-              customRoundedButton(title: "Register", loading: false, on_Tap: (){})
+              Consumer<AuthProvider>(
+                builder: (context, auth, child) => 
+                 customRoundedButton(title: "Register", loading: auth.isLoading, on_Tap: ()async{
+                   if(_farm.currentState!.validate()){
+                    await Provider.of<AuthProvider>(context, listen: false).sigupUser(
+                      context,
+                      _nameController.text.toString(),
+                      _emailController.text.toString(),
+                      _passwordController.text.toString(),
+                    );
+                     
+                    }
+                 // Navigator.push(context, MaterialPageRoute(builder: (_)=> const QuestionScreen()));
+                }),
+              )
             ],),
           ),
         ),
@@ -63,12 +81,14 @@ class _SignUpState extends State<SignUp> {
   }
   Widget formTextContainer() {
     return Form(
+      key: _farm,
         child: Column(
       children: [
         textFieldWithIconWidget(
             widgetcontroller: _nameController,
             widgeticon: Icons.person_2,
             fieldName: "Student Name",
+            validatorCallback: ValidationBuilder().minLength(2).maxLength(15).build(),
             isPasswordField: false),
         // TextFieldWidget(
         //     widgetcontroller: _companyNameController,
@@ -82,6 +102,7 @@ class _SignUpState extends State<SignUp> {
         textFieldWithIconWidget(
           widgeticon: Icons.email,
             widgetcontroller: _emailController,
+            validatorCallback: ValidationBuilder().email().build(),
             fieldName: "Email",
             isPasswordField: false),
 
@@ -92,6 +113,7 @@ class _SignUpState extends State<SignUp> {
         textFieldWithIconWidget(
           widgeticon: Icons.lock,
             widgetcontroller: _passwordController,
+            validatorCallback: ValidationBuilder().minLength(6).maxLength(20).build(),
             fieldName: "Password",
             isPasswordField: true),
         const SizedBox(
@@ -101,6 +123,13 @@ class _SignUpState extends State<SignUp> {
         textFieldWithIconWidget(
           widgeticon: Icons.lock,
             widgetcontroller: _confirmPassController,
+            validatorCallback: (val) {
+              if(_passwordController.text==val){
+                ValidationBuilder().build();
+              }
+              return null;
+              
+            },
             fieldName: "Confirm Password",
             isPasswordField: true),
         const SizedBox(

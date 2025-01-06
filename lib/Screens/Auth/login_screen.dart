@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:form_validator/form_validator.dart';
+import 'package:lms_app/Screens/Auth/Provider/auth_provider.dart';
 import 'package:lms_app/Screens/Auth/signup.dart';
 import 'package:lms_app/Widgets/custom_rounded_btn.dart';
 import 'package:lms_app/classes/screen_size.dart';
-
+import 'package:provider/provider.dart';
 import '../../Widgets/textfield_with_icon.dart';
 
 class LoginPage extends StatelessWidget {
+  final GlobalKey<FormState> _farm = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   @override
+
+
+  
   Widget build(BuildContext context) {
+   
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -93,14 +100,22 @@ class LoginPage extends StatelessWidget {
                         SizedBox(height: screenHeight*0.035,),
                     
                         
-                       customRoundedButton(title: "Login", loading: false, on_Tap: () {
-                         
-                       },),
+                       Consumer<AuthProvider>(
+                        builder: (context, auth, child) => 
+                          customRoundedButton(title: "Login", loading: auth.isLoading, on_Tap: () async{
+                            if(_farm.currentState!.validate()){
+                             await Provider.of<AuthProvider>(context, listen: false).loginUser(context,email.text, password.text);
+                                            
+                                           }
+                           
+                         },),
+                       ),
                          SizedBox(height: screenHeight*0.022),
                     
                        
                         TextButton(
                           onPressed: () {
+                           
                             Navigator.push(context, MaterialPageRoute(builder: (_)=> const SignUp()));
                             // Handle Forgot Password
                           },
@@ -123,15 +138,18 @@ class LoginPage extends StatelessWidget {
     );
   }
   Widget textFieldContainer() {
-    return Column(
-      children: [
-      textFieldWithIconWidget(fieldName: "Email",isPasswordField: false,widgetcontroller: email,widgeticon: Icons.email,),
-        SizedBox(height: screenHeight*0.035,),
-       textFieldWithIconWidget(widgetcontroller: password, fieldName: "password", isPasswordField: true, widgeticon: Icons.key,)
-       
+    return Form(
+      key: _farm,
+      child: Column(
+        children: [
+        textFieldWithIconWidget(fieldName: "Email",isPasswordField: false,widgetcontroller: email,widgeticon: Icons.email,validatorCallback: ValidationBuilder().email().maxLength(50).build(),),
+          SizedBox(height: screenHeight*0.035,),
+         textFieldWithIconWidget(widgetcontroller: password, fieldName: "password", isPasswordField: true, widgeticon: Icons.key, validatorCallback:  ValidationBuilder().minLength(6).maxLength(20).build(),)
+         
+          
         
-      
-      ],
+        ],
+      ),
     );
   }
 
