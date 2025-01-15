@@ -1,8 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:lms_app/API/global_api.dart';
 import 'package:http/http.dart' as http;
+import 'package:lms_app/Screens/Auth/Provider/user_details.dart';
+import 'package:lms_app/Screens/Instructor/dashboard.dart';
+import 'package:lms_app/Screens/StudentsScreen/student_dashboard.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_toast_message/simple_toast.dart';
 
 class AuthProvider extends ChangeNotifier{
@@ -76,6 +81,23 @@ class AuthProvider extends ChangeNotifier{
       final userJson = jsonDecode(response.body);
       
       if(response.statusCode == 200){
+
+         final userJson = jsonDecode(response.body);
+         String role = userJson['user']['role'];
+         print(role);
+
+         Provider.of<UserDetails>(contxt, listen: false).setUserDetails(userJson);
+         
+
+         if(role =="admin"){
+         // Navigator.pushNamed(contxt, '/dashboard');
+        // Navigator.pushReplacement(contxt, MaterialPageRoute(builder: (_)=> const InstructorDashboard()));
+         }
+         else{
+          Navigator.pushReplacement(contxt, MaterialPageRoute(builder: (_)=> const StudentDashboard()));
+         }
+
+
          _isLoading =false;
     notifyListeners();
        SimpleToast.showSuccessToast(contxt, "Success", userJson['message']);

@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.1.2
   http: ^1.2.2
   simple_toast_message: ^0.0.6
+  shared_preferences:
   form_validator: ^2.1.1
  
 

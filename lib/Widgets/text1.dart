@@ -6,11 +6,14 @@ class Text1 extends StatefulWidget {
   final double fontSize;
   final Color fontColor;
   final String text;
-  const Text1(
+  FontWeight? weight;
+   Text1(
       {super.key,
       required this.fontColor,
       required this.fontSize,
-      required this.text});
+      required this.text,
+      this.weight,
+      });
 
   @override
   State<Text1> createState() => _Text1State();
@@ -25,7 +28,7 @@ class _Text1State extends State<Text1> {
           textStyle: TextStyle(
               color: widget.fontColor,
               fontSize: widget.fontSize,
-              fontWeight: FontWeight.w500)),
+              fontWeight:  widget.weight ?? FontWeight.w500)),
     );
   }
 }
